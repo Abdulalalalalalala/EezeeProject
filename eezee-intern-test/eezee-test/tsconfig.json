@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/index2.jsx", "src/pages/_app.jsx", "src/pages/_document.jsx", "src/components/product-list.jsx", "src/pages/index.jsx", "src/components/product-card.jsx", "src/components/head.jsx", "src/components/layout.jsx", "src/components/title.jsx", "src/components/contact-header.jsx", "src/components/brand-card.jsx"],
+  "exclude": ["node_modules"]
+}
