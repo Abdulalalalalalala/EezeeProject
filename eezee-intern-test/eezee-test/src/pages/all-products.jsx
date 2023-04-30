@@ -14,17 +14,18 @@ const Sidebar = ({ totalResults }) => {
       <p>{totalResults} results</p>
       <style jsx>{`
         .sidebar {
-          width: 250px;
-          padding-right: 20px;
+          width: 15.625rem;
+          padding-right: 1.25rem;
         }
         h2 {
-          font-size: 24px;
+          font-size: 1.5rem;
           font-weight: bold;
         }
       `}</style>
     </div>
   );
 };
+
 
 const sortProducts = (products, sortOrder) => {
   if (sortOrder === 'price-high-to-low') {
@@ -88,43 +89,43 @@ const AllProducts = () => {
       </div>
       <style jsx>{`
         .all-products {
-            display: flex;
-            padding: 20px;
-          }
-          .products-main {
-            flex-grow: 1;
-          }
-          .page-info {
-            margin-bottom: 10px;
-          }
-          .sort-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-          }
-          .sort-container span {
-            margin-right: 10px;
-          }
-          .sort-btn {
-            margin-right: 5px;
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            color: #333;
-            cursor: pointer;
-            transition: 0.3s;
-          }
-          .sort-btn:hover {
-            border-color: #0070f3;
-          }
-          .sort-btn.active {
-            border-color: #0070f3;
-            color: #0070f3;
-          }
-          .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-          }
+          display: flex;
+          padding: 1.25rem;
+        }
+        .products-main {
+          flex-grow: 1;
+        }
+        .page-info {
+          margin-bottom: 0.625rem;
+        }
+        .sort-container {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.625rem;
+        }
+        .sort-container span {
+          margin-right: 0.625rem;
+        }
+        .sort-btn {
+          margin-right: 0.3125rem;
+          padding: 0.3125rem 0.625rem;
+          border: 0.0625rem solid #ccc;
+          background-color: #fff;
+          color: #333;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        .sort-btn:hover {
+          border-color: #0070f3;
+        }
+        .sort-btn.active {
+          border-color: #0070f3;
+          color: #0070f3;
+        }
+        .products-grid {
+          display: flex;
+          flex-wrap: wrap;
+        }
       `}</style>
     </Layout>
   );

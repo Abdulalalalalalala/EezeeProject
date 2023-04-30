@@ -38,19 +38,20 @@ const AllBrands = () => {
       </div>
       <style jsx>{`
         .container {
-          padding: 20px;
+          padding: 1.25rem;
         }
         .alphabet-section {
-          font-size: 24px;
+          font-size: 1.5rem;
           font-weight: bold;
-          margin: 10px 0;
+          margin: 0.625rem 0;
         }
         .brands-row {
           display: flex;
           flex-wrap: wrap;
-          margin-bottom: 20px;
+          margin-bottom: 1.25rem;
         }
       `}</style>
+
     </Layout>
   );
 };
