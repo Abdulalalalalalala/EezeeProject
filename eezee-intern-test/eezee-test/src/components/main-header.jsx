@@ -1,37 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-
+import { useEffect, useState } from 'react';
+import { useCart } from '../contexts/cart-contexts';
 
 export default function MainHeader() {
-  const [cartItemCount, setCartItemCount] = useState(0);
+  // Get the total item count from the cart context
+  const { totalItemCount } = useCart();
+
+  // Set the cart count HTML with the total item count from the cart context
+  const [cartCountHtml, setCartCountHtml] = useState('');
 
   useEffect(() => {
-    const updateCartItemCount = (newCartItems) => {
-      const newCount = newCartItems.reduce((count, item) => count + item.quantity, 0);
-    setCartItemCount(newCount);
-    console.log("Updated cart count:", newCount);
-    };
-
-    const handleCartItemsUpdated = (e) => {
-      updateCartItemCount(e.detail.cartItems);
-    };
-
-    // Initial update
-    const storedCartItems = JSON.parse(Cookies.get("cartItems") || "[]");
-    updateCartItemCount(storedCartItems);
-
-    // Set up a listener for the cartItemsUpdated event
-    window.addEventListener("cartItemsUpdated", handleCartItemsUpdated);
-
-    // Clean up the event listener
-    return () => {
-      window.removeEventListener("cartItemsUpdated", handleCartItemsUpdated);
-    };
-  }, []);
-
+    const sanitizedItemCount = Number.isInteger(totalItemCount) ? totalItemCount : 0;
+    setCartCountHtml(`<span class="cart-count absolute top-0 right-0 bg-blue-700 text-white rounded-full text-xs font-semibold w-4 h-4 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">${sanitizedItemCount}</span>`);
+  }, [totalItemCount]);
 
   return (
     <div className="bg-gray-100">
+      {/* Render the top header section */}
       <div className="bg-gray-200 py-2">
         <div className="container mx-auto flex items-center">
           <div className="px-4 flex">
@@ -64,6 +48,7 @@ export default function MainHeader() {
           </div>
         </div>
       </div>
+      {/* Render the main header section */}
       <div className="container mx-auto flex justify-between items-center py-4">
         <div className="ctn-eezee-logo">
           <a href="/">
@@ -74,6 +59,7 @@ export default function MainHeader() {
             />
           </a>
         </div>
+        {/* Render the cart icon and cart count */}
         <div className="mx-2 pr-3">
           <a href="/">
             <div className="cart-icon-container relative">
@@ -81,9 +67,9 @@ export default function MainHeader() {
                 alt="Cart"
                 src="https://storage.googleapis.com/imgez/icons/cart-icon.svg"
               />
-              <span className="cart-count absolute top-0 right-0 bg-blue-700 text-white rounded-full text-xs font-semibold w-4 h-4 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
-                {cartItemCount}
-              </span>
+              <span
+                dangerouslySetInnerHTML={{ __html: cartCountHtml }}
+              />
             </div>
           </a>
         </div>

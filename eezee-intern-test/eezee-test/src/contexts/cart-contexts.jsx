@@ -1,67 +1,72 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { createContext, useReducer, useContext, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
+// Set the initial state of the cart
+const initialState = {
+  cartItems: Cookies.get("cartItems") ? JSON.parse(Cookies.get("cartItems")) : [],
+  totalItemCount: Cookies.get("totalItemCount") ? parseInt(Cookies.get("totalItemCount")) : 0,
+};
+
+// Define the reducer function to update the cart state based on dispatched actions
+function reducer(state, action) {
+  switch (action.type) {
+    case "CART_ADD_ITEM": {
+      const { updatedCartItems } = action.payload;
+
+      // Calculate the total item count for the cart
+      const totalItemCount = updatedCartItems.reduce((count, item) => count + item.quantity, 0);
+
+      // Set the cart items and total item count in cookies for persistence
+      Cookies.set("cartItems", JSON.stringify(updatedCartItems), { expires: 7 });
+      Cookies.set("totalItemCount", totalItemCount, { expires: 7 });
+
+      // Return the updated state with the new cart items and total item count
+      return { ...state, cartItems: updatedCartItems, totalItemCount };
+    }
+
+    default:
+      return state;
+  }
+}
+
+// Define the cart provider component to wrap the application with the CartContext
 export const CartProvider = ({ children }) => {
-  const getInitialCartItems = () => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    // Read cart data from cookies and parse it as JSON
-    const storedCartItems = JSON.parse(Cookies.get('cartItems') || '[]');
+  // Define the addItemToCart function to update the cart when an item is added
+  const addItemToCart = (product, quantity) => {
+    const newItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity,
+    };
+    const existingItemIndex = state.cartItems.findIndex((item) => item.id === newItem.id);
 
-    // If there are cart items in cookies, return them; otherwise, return an empty array
-    return storedCartItems || [];
-  };
-
-  const [cartItems, setCartItems] = useState(getInitialCartItems);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    // Update cookies whenever cartItems state changes
-    Cookies.set('cartItems', JSON.stringify(cartItems), { expires: 7 }); // Set cookie to expire in 7 days
-  }, [cartItems]);
-
-  const addItemToCart = (item, quantity) => {
     let updatedCartItems;
-  
-    const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
-  
-    if (existingItem) {
-      updatedCartItems = cartItems.map((cartItem) =>
-        cartItem.id === item.id
-          ? { ...cartItem, quantity: cartItem.quantity + quantity }
-          : cartItem
+    if (existingItemIndex !== -1) {
+      updatedCartItems = state.cartItems.map((item, index) =>
+        index === existingItemIndex ? { ...item, quantity: item.quantity + newItem.quantity } : item
       );
     } else {
-      updatedCartItems = [...cartItems, { ...item, quantity }];
+      updatedCartItems = [...state.cartItems, newItem];
     }
-  
-    setCartItems(updatedCartItems);
-  
-    // Dispatch a custom event after updating the cart items
-    const updateEvent = new CustomEvent('cartItemsUpdated', {
-      detail: { cartItems: updatedCartItems },
-    });
-    window.dispatchEvent(updateEvent);
+
+    // Calculate the total item count for the cart
+    const totalItemCount = updatedCartItems.reduce((count, item) => count + item.quantity, 0);
+
+    // Dispatch the CART_ADD_ITEM action to update the cart state
+    dispatch({ type: "CART_ADD_ITEM", payload: { updatedCartItems, totalItemCount } });
   };
 
-  const removeItemFromCart = (itemId) => {
-    setCartItems(cartItems.filter((item) => item.id !== itemId));
-  };
+  // Define the value of the CartContext to be passed to child components
+  const value = { ...state, addItemToCart };
 
-  const value = {
-    cartItems,
-    addItemToCart,
-    removeItemFromCart,
-  };
-
+  // Render the CartContext provider with the children components as its children
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

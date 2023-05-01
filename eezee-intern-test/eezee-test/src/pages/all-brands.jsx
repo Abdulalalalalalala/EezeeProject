@@ -12,26 +12,39 @@ const groupByFirstLetter = (brands) => {
     if (!groupedBrands[firstLetter]) {
       groupedBrands[firstLetter] = [];
     }
-    groupedBrands[firstLetter].push(brand);
+    // Check if the brand name already exists in the array for the current first letter
+    if (!groupedBrands[firstLetter].some(b => b.name === brand.name)) {
+      groupedBrands[firstLetter].push(brand);
+    } else {
+      console.log(`Duplicate brand name: ${brand.name}`);
+    }
   });
   return groupedBrands;
 };
 
+
 const AllBrands = () => {
+  // Group the brands by their first letter
   const groupedBrands = groupByFirstLetter(brandsData);
+  // Get the sorted list of keys (first letters) from the grouped brands object
   const sortedLetters = Object.keys(groupedBrands).sort();
 
   return (
+    // Render the layout and the main content
     <Layout title="All Brands">
       <Title mainTitle="All Brands" subTitle="Browse the full catalog of brands today" />
       <div className="container mx-auto ">
         {sortedLetters.map((letter) => (
+          // Render the section for each first letter and its brands
           <div key={letter}>
             <h2 className="alphabet-section">{letter}</h2>
             <div className="brands-row">
-              {groupedBrands[letter].sort((a, b) => a.name.localeCompare(b.name)).map((brand) => (
-                <BrandCard key={brand.id} brand={brand} />
-              ))}
+              {groupedBrands[letter]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((brand) => (
+                  // Render each brand as a BrandCard component
+                  <BrandCard key={brand.id} brand={brand} />
+                ))}
             </div>
           </div>
         ))}
@@ -51,7 +64,6 @@ const AllBrands = () => {
           margin-bottom: 1.25rem;
         }
       `}</style>
-
     </Layout>
   );
 };

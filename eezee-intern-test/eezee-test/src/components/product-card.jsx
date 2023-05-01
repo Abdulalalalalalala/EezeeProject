@@ -1,29 +1,36 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Card from './base-card';
+import Card from './card';
 
 const ProductCard = ({ product }) => {
+  // Destructure required properties from product object
   const { id, images, title, vipPriceFlag, bulkDiscountFlag, moq, highPriceOriginalPretty, lowPriceOriginalPretty, highPricePretty, lowPricePretty, currencySymbol } = product;
+  
+  // Replace URL-encoded spaces with actual spaces, and trim the resulting string
   const imageUrl = images[0].url.replace(/%20/g, " ").trim();
 
+  // Create an array to store product tags
   const productTags = [];
 
+  // If the product has a minimum order quantity (MOQ), add a tag to the productTags array
   if (moq) {
     productTags.push({ name: `MOQ: ${moq}`, color: 'moq-color' });
   }
 
+  // If the product has a bulk discount flag, add a tag to the productTags array
   if (bulkDiscountFlag) {
     productTags.push({ name: 'Bulk Discount', color: 'bulk-discount-color' });
   }
 
+  // If the product has a VIP price flag, add a tag to the productTags array
   if (vipPriceFlag) {
     productTags.push({ name: 'VIP Price', color: 'vip-price-color' });
   }
 
+  // Render the product card
   return (
     <Link href={`/product/${id}`}>
-
       <Card image={imageUrl} altText={title} className="h-full" tags={productTags}>
         <div className="product-card">
           <div className="price-container">

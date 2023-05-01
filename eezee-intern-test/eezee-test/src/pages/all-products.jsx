@@ -5,8 +5,10 @@ import ProductCard from '../components/product-card';
 
 import productData from '../data/products.json';
 
+// Define the number of products to display per page
 const ITEMS_PER_PAGE = 10;
 
+// Sidebar component that displays the number of products in the catalog
 const Sidebar = ({ totalResults }) => {
   return (
     <div className="sidebar">
@@ -26,7 +28,7 @@ const Sidebar = ({ totalResults }) => {
   );
 };
 
-
+// Sort the products based on the selected sort order
 const sortProducts = (products, sortOrder) => {
   if (sortOrder === 'price-high-to-low') {
     return products.sort((a, b) => b.highPrice - a.highPrice);
@@ -38,14 +40,21 @@ const sortProducts = (products, sortOrder) => {
 };
 
 const AllProducts = () => {
+  // Initialize the state variables
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState('relevance');
 
+  // Calculate the total number of pages
   const totalPages = Math.ceil(productData.length / ITEMS_PER_PAGE);
+
+  // Calculate the start and end indices for the products to display
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
+
+  // Sort and slice the products based on the current page and sort order
   const displayedProducts = sortProducts(productData, sortOrder).slice(start, end);
 
+  // Event handler for when the sort order button is clicked
   const handleSortButtonClick = (newSortOrder) => {
     setSortOrder(newSortOrder);
   };

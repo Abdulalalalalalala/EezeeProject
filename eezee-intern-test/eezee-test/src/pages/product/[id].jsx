@@ -7,28 +7,34 @@ import "react-multi-carousel/lib/styles.css";
 import { useCart } from "../../contexts/cart-contexts";
 import Button from "@mui/material/Button";
 
+// Function to retrieve product data by ID
 const getProductById = (id) => {
   return productData.find((product) => product.id === id);
 };
 
 const ProductPage = () => {
-  const [quantity, setQuantity] = useState(1);
+  // State variables
+  
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const carouselRef = React.useRef(null);
-  const { addItemToCart, cartItems } = useCart();
-  console.log("ProductPage cartItems:", cartItems);
 
+  // Get cart context and items
+  const { addItemToCart, cartItems } = useCart();
+
+  // Update the carousel slide when the active image index changes
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.goToSlide(activeImageIndex);
     }
   }, [activeImageIndex]);
 
+  // Handler functions for quantity, cart and favourite buttons
   const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
+    if (quantity > moq) {
       setQuantity(quantity - 1);
     }
   };
+  
   const handleAddToCart = () => {
     addItemToCart(product, quantity);
   };
@@ -36,19 +42,22 @@ const ProductPage = () => {
     setQuantity(quantity + 1);
   };
   const handleAddToFavourite = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+    // To be implemented
   };
 
+  // Get the product ID from the router query
   const router = useRouter();
   const { id } = router.query;
+
+  // Retrieve the product data
   const product = getProductById(id);
 
+  // If product is not found, display an error message
   if (!product) {
     return <div>Product not found</div>;
   }
 
+  // Destructure product data
   const {
     images,
     title,
@@ -56,9 +65,12 @@ const ProductPage = () => {
     highPricePretty,
     lowPricePretty,
     descriptionHtml,
+    moq,
   } = product;
   const { brandImage, brand, model } = metadata;
+  const [quantity, setQuantity] = useState(product.moq);
 
+  // Generate the carousel images and preview images
   const carouselImages = images.map((image, index) => (
     <img
       key={index}
@@ -67,7 +79,6 @@ const ProductPage = () => {
       className=""
     />
   ));
-
   const previewImages = images.map((image, index) => (
     <img
       key={index}
@@ -79,7 +90,6 @@ const ProductPage = () => {
       }`}
     />
   ));
-
   return (
     <Layout title={title}>
       <div className="container mx-auto">
@@ -172,31 +182,32 @@ const ProductPage = () => {
               {lowPricePretty}
             </div>
             <div className="quantity-selector mt-2 flex items-center">
-              <span className="mr-2">Quantity:</span>
-              <Button
-                className="button"
-                variant="contained"
-                color="primary"
-                onClick={handleDecreaseQuantity}
-              >
-                -
-              </Button>
-              <input
-                className="mx-2 text-center"
-                type="number"
-                value={quantity}
-                min={1}
-                readOnly
-              />
-              <Button
-                className="button"
-                variant="contained"
-                color="primary"
-                onClick={handleIncreaseQuantity}
-              >
-                +
-              </Button>
-            </div>
+  <span className="mr-2">Quantity:</span>
+  <Button
+    className="button"
+    variant="contained"
+    color="primary"
+    onClick={handleDecreaseQuantity}
+  >
+    -
+  </Button>
+  <input
+    className="mx-2 text-center"
+    type="number"
+    value={quantity}
+    min={moq}
+    onChange={(e) => setQuantity(parseInt(e.target.value))}
+  />
+  <Button
+    className="button"
+    variant="contained"
+    color="primary"
+    onClick={handleIncreaseQuantity}
+  >
+    +
+  </Button>
+</div>
+
             <div className="my-2">
               <Button
                 className="button"

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
+// Returns the CSS class for the tag div based on the color of the tag item
 const getTagDivClass = (tagItem) => {
   switch (tagItem.color) {
     case "moq-color":
@@ -14,9 +15,11 @@ const getTagDivClass = (tagItem) => {
   }
 };
 
+// A reusable card component that can contain an image, tags and children
 const Card = ({ image, altText, children, className, tags }) => {
   let tagDivs = [];
 
+  // Creates a tag div for each tag item and adds it to the array
   if (tags) {
     tagDivs = tags.map((tagItem, index) => (
       <div
@@ -29,6 +32,7 @@ const Card = ({ image, altText, children, className, tags }) => {
     ));
   }
 
+  // Renders the card with the image, tags and children
   return (
     <>
       <div className={`cardWrapper card ${className}`}>
@@ -61,15 +65,12 @@ const Card = ({ image, altText, children, className, tags }) => {
           display: flex;
           flex-direction: column;
           padding: 0.5rem;
-          
-          
         }
         .imageWrapper {
           width: 100%;
           height: 10rem;
           min-height: 0;
           position: relative;
-          
         }
         .innerImageWrapper {
           width: 100%;
@@ -78,7 +79,6 @@ const Card = ({ image, altText, children, className, tags }) => {
           position: relative;
         }
         .card {
-         
           flex-basis: 16.66%;
           box-sizing: border-box;
         }
