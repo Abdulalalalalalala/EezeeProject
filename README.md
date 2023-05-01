@@ -23,6 +23,7 @@ Once the dependencies are installed, run the following command to start the deve
 ```
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Pages
 
@@ -85,3 +86,6 @@ The following technologies are used in this project:
 - styled-jsx
 - React
 
+## Contributors
+
+Abdullah
