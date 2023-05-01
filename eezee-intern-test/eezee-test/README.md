@@ -1,38 +1,91 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+
+# Eezee Test
+
+This is a project for the Eezee internship test.
 
 ## Getting Started
 
-First, run the development server:
+To get started, clone this repository and navigate to the eezee-test directory
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+```
+cd eezee-intern-test/eezee-test
 ```
 
+Run the following command to install the required dependencies:
+
+```
+npm install
+```
+
+Once the dependencies are installed, run the following command to start the development server:
+
+```
+npm run dev
+```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Pages
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The following pages are included in this project:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- `pages/index.jsx`: The home page, which lists all of the products.
+- `pages/product/[id].jsx`: The product page, which displays details about a specific product.
+- `pages/all-brands.jsx`: The all brands page, which lists all of the brands alphabetically.
+- `pages/all-products.jsx`: The all products page, which lists all of the products.
+- `pages/api/cart.js`: The API route for the cart functionality.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Components
 
-## Learn More
+The following reusable components are used in this project:
 
-To learn more about Next.js, take a look at the following resources:
+- `components/main-header.jsx`: The main header component, which is displayed at the top of each page.
+- `components/layout.jsx`: The layout component, which provides a consistent layout for all pages.
+- `components/card.jsx`: The parent card component.
+- `components/product-card.jsx`: The product card component, which is used to display a single product card.
+- `components/brand-card.jsx`: The brand card component, which is used to display a single brand card.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Functionality
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The following functionalities are implemented in this project:
 
-## Deploy on Vercel
+- Able to add to cart with different quantity
+- Able to persist cart quantity across all pages
+- Able to redirect to Product Page
+- Able to redirect to Home Page 
+  - Clicking On Eezee Logo
+- Able to redirect to All Brands Page
+  - View All Brands
+  - View More
+- Able to redirect to All Products Page
+  - View More
+- Able to sort products from price high to low & price low to high
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Additional Functionality
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The following additional functionalities are implemented in this project:
+- Error Handling
+  - Url Abnormal Spacing
+  - Duplicate Brand Name ( For All Brands, Homepage allows same brand name with different ID due to different considerations(Dove = Soap/Chocolate Brand) so 2 different implementations were provided)
+  - Dummy Image Inserted for brands with no images
+- Product Details sets the price and quantity section to be put below for dynamic sizing (Mobile Phone)
+- Product Quantity minimum number is based on MOQ
+
+## Data
+
+The following data files are included in this project:
+
+- `src/data/brands.json`: The JSON file containing data about all of the brands.
+- `src/data/products.json`: The JSON file containing data about all of the products.
+
+## Technologies Used
+
+The following technologies are used in this project:
+
+- Next.js
+- styled-jsx
+- React
+
+## Contributors
+
+Abdullah
